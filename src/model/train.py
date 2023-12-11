@@ -119,7 +119,7 @@ def parse_args():
     parser.add_argument("--reg_rate", dest='reg_rate',
                         type=float, default=0.01)
     parser.add_argument("--test_train_ratio", type=float, required=False, default=0.3)
-    parser.add_argument("--registered_model_name", type=str, help="model name")
+    parser.add_argument("--registered_model_name", type=str, required=Fale, default="TheAwesomeModel",help="model name")
 
 
     # parse args
