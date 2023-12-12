@@ -3,13 +3,13 @@ code: model
 command: >-
   python train.py
   --training_data ${{inputs.training_data}}
-  --reg_date ${{inputs.reg_rate}}
+  --reg_rate ${{inputs.reg_rate}}
 inputs:
   training_data: 
     type: uri_folder 
-    path: experimentation/data
+    path: azureml:diabetes-data:1
   reg_rate: 0.01
-environment: azureml:AzureML-sklearn-0.24-ubuntu18.04-py37-cpu@latest
+environment: azureml://registries/azureml/environments/sklearn-1.1/versions/19
 compute: azureml:xavierdacruz11
-experiment_name: some-old-experiment
+experiment_name: exp3
 description: A first attempt at running a training experiment as a command job
