@@ -19,6 +19,14 @@ import matplotlib.pyplot as plt
 
 # define functions
 def main(args):
+
+    print(""" 
+    This is some dummy code to test out how github actions will work when triggered by Pull Requests
+    
+    :)
+    
+    """)
+
     # TO DO: enable autologging
     # Start Logging
     mlflow.start_run()
