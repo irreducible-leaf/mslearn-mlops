@@ -12,20 +12,11 @@ import mlflow.sklearn
 from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import roc_auc_score
-from sklearn.metrics import roc_curve
-import matplotlib.pyplot as plt
-
 
 
 # define functions
 def main(args):
-
-    print(""" 
-    This is some dummy code to test out how github actions will work when triggered by Pull Requests
-    
-    :)
-    
-    """)
+    print("This is some dummy code")
 
     # TO DO: enable autologging
     # Start Logging
@@ -54,7 +45,6 @@ def main(args):
     metrics = evaluate_model(model, X_test, y_test)
     print(" ".join(f"{k}={v}" for k, v in metrics.items()))
 
-
     # Registering the model to the workspace
     # print("Registering the model via MLFlow")
     # mlflow.sklearn.log_model(
@@ -72,6 +62,7 @@ def main(args):
     # Stop Logging
     mlflow.end_run()
 
+
 def get_csvs_df(path):
     if not os.path.exists(path):
         raise RuntimeError(f"Cannot use non-existent path provided: {path}")
@@ -83,22 +74,39 @@ def get_csvs_df(path):
 
 # TO DO: add function to split data
 def split_data(df, test_train_ratio):
-    X, y = df[['Pregnancies', 'PlasmaGlucose', 'DiastolicBloodPressure', 'TricepsThickness', 'SerumInsulin', 'BMI',
-               'DiabetesPedigree', 'Age']].values, df['Diabetic'].values
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=test_train_ratio, random_state=0)
+    X, y = df[
+        ['Pregnancies',
+         'PlasmaGlucose',
+         'DiastolicBloodPressure',
+         'TricepsThickness',
+         'SerumInsulin',
+         'BMI',
+         'DiabetesPedigree',
+         'Age']
+    ].values, df['Diabetic'].values
+    X_train, X_test, y_train, y_test = train_test_split(
+        X,
+        y,
+        test_size=test_train_ratio,
+        random_state=0)
     return X_train, X_test, y_train, y_test
+
 
 def train_model(reg_rate, X_train, X_test, y_train, y_test):
     # train model
-    model = LogisticRegression(C=1 / reg_rate, solver="liblinear").fit(X_train, y_train)
+    model = LogisticRegression(
+        C=1 / reg_rate,
+        solver="liblinear"
+    ).fit(X_train, y_train)
     return model
+
 
 def evaluate_model(model, X_test, y_test):
     y_hat = model.predict(X_test)
     acc = np.average(y_hat == y_test)
 
     y_scores = model.predict_proba(X_test)
-    auc = roc_auc_score(y_test,y_scores[:,1])
+    auc = roc_auc_score(y_test, y_scores[:, 1])
 
     # # plot ROC curve
     # fpr, tpr, thresholds = roc_curve(y_test, y_scores[:, 1])
@@ -122,13 +130,21 @@ def parse_args():
     parser = argparse.ArgumentParser()
 
     # add arguments
-    parser.add_argument("--training_data", dest='training_data',
+    parser.add_argument("--training_data",
+                        dest='training_data',
                         type=str)
-    parser.add_argument("--reg_rate", dest='reg_rate',
+    parser.add_argument("--reg_rate",
+                        dest='reg_rate',
                         type=float, default=0.01)
-    parser.add_argument("--test_train_ratio", type=float, required=False, default=0.3)
-    parser.add_argument("--registered_model_name", type=str, required=False, default="TheAwesomeModel",help="model name")
-
+    parser.add_argument("--test_train_ratio",
+                        type=float,
+                        required=False,
+                        default=0.3)
+    parser.add_argument("--registered_model_name",
+                        type=str,
+                        required=False,
+                        default="TheAwesomeModel",
+                        help="model name")
 
     # parse args
     args = parser.parse_args()
