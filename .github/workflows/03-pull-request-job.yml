@@ -1,0 +1,12 @@
+name: Stuff to do when a pull request is made
+
+on:
+  pull_request:
+  
+jobs:
+  temp-dummy-job:
+    runs-on: ubuntu-latest
+    steps:
+    - name: echo some text
+      run: |
+        echo "Will add code checks here in next challenge"
