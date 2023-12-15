@@ -16,7 +16,6 @@ from sklearn.metrics import roc_auc_score
 
 # define functions
 def main(args):
-    print("This is some dummy code")
 
     # TO DO: enable autologging
     # Start Logging
