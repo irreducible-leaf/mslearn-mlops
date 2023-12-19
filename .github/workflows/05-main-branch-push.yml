@@ -20,4 +20,21 @@ jobs:
       with:
         creds: ${{secrets.AZURE_CREDENTIALS}}
     - name: Run training job
-      run: az ml job create --file src/job2.yml --resource-group ${{secrets.RESOURCE_GROUP}} --workspace-name ${{secrets.WORKSPACE_NAME}}
+      run: az ml job create --file src/job_development.yml --resource-group ${{secrets.RESOURCE_GROUP}} --workspace-name ${{secrets.WORKSPACE_NAME}} --stream
+
+  production:
+    needs: experiment
+    runs-on: ubuntu-latest
+    name: train on prod data
+    environment: production
+    steps:
+    - name: Check out repo
+      uses: actions/checkout@main
+    - name: Install az ml extension
+      run: az extension add -n ml -y
+    - name: Azure login
+      uses: azure/login@v1
+      with:
+        creds: ${{secrets.AZURE_CREDENTIALS}}
+    - name: Run training job
+      run: az ml job create --file src/job_production.yml --resource-group ${{secrets.RESOURCE_GROUP}} --workspace-name ${{secrets.WORKSPACE_NAME}} --stream
