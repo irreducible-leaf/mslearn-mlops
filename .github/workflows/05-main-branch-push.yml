@@ -20,7 +20,7 @@ jobs:
       with:
         creds: ${{secrets.AZURE_CREDENTIALS}}
     - name: Run training job
-      run: az ml job create --file src/job_development.yml --resource-group ${{secrets.RESOURCE_GROUP}} --workspace-name ${{secrets.WORKSPACE_NAME}} --stream
+      run: az ml job create --file src/job_development.yml --resource-group ${{secrets.RESOURCE_GROUP}} --workspace-name ${{secrets.WORKSPACE_NAME}}
 
   production:
     needs: experiment
@@ -37,4 +37,4 @@ jobs:
       with:
         creds: ${{secrets.AZURE_CREDENTIALS}}
     - name: Run training job
-      run: az ml job create --file src/job_production.yml --resource-group ${{secrets.RESOURCE_GROUP}} --workspace-name ${{secrets.WORKSPACE_NAME}} --stream
+      run: az ml job create --file src/job_production.yml --resource-group ${{secrets.RESOURCE_GROUP}} --workspace-name ${{secrets.WORKSPACE_NAME}}
